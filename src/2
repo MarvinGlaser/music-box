@@ -1,0 +1,17 @@
+use std::io::Error;
+
+
+
+struct AudioManager {
+
+}
+
+
+trait Manager {
+    fn set_colume(level: i32) -> Result<(), Error>;
+    fn play() -> Result<(), Error>;
+    fn pause() -> Result<(), Error>;
+    fn forward() -> Result<(), Error>;
+    fn backward() -> Result<(), Error>;
+
+}
