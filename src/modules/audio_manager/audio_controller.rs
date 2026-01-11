@@ -35,5 +35,4 @@ impl Manager for AudioManager {
 
     fn backward() -> Result<(), Error> {
         todo!()
-    }
 }
