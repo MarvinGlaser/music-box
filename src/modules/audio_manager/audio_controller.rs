@@ -2,37 +2,38 @@ use std::io::Error;
 
 
 
-struct AudioManager {
-
-}
+pub struct AudioManager { }
 
 
-trait Manager {
-    fn set_colume(level: i32) -> Result<(), Error>;
-    fn play() -> Result<(), Error>;
-    fn pause() -> Result<(), Error>;
-    fn forward() -> Result<(), Error>;
-    fn backward() -> Result<(), Error>;
+pub trait Manager {
+    fn set_volume(&self, level: i32) -> Result<(), Error>;
+    fn play(&self) -> Result<(), Error>;
+    fn pause(&self) -> Result<(), Error>;
+    fn forward(&self) -> Result<(), Error>;
+    fn backward(&self) -> Result<(), Error>;
 }
 
 
 impl Manager for AudioManager {
-    fn set_colume(level: i32) -> Result<(), Error> {
-        todo!()
+
+    fn set_volume(&self, level: i32) -> Result<(), Error> {
+        println!("set audio to level {level}");
+        Ok(())
     }
 
-    fn play() -> Result<(), Error> {
-        todo!()
+    fn play(&self) -> Result<(), Error> {
+        Ok(())
     }
 
-    fn pause() -> Result<(), Error> {
-        todo!()
+    fn pause(&self) -> Result<(), Error> {
+        Ok(())
     }
 
-    fn forward() -> Result<(), Error> {
-        todo!()
+    fn forward(&self) -> Result<(), Error> {
+        Ok(())
     }
 
-    fn backward() -> Result<(), Error> {
-        todo!()
+    fn backward(&self) -> Result<(), Error> {
+        Ok(())
+    }
 }
