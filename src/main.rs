@@ -1,8 +1,7 @@
 mod modules;
 
 use std::{error::Error, future::pending};
-
-use zbus::{connection, proxy, interface};
+use zbus::connection;
 
 //use crate::modules::audio_manager::audio_controller::AudioManager;
 //use crate::modules::audio_manager::audio_controller::Manager;

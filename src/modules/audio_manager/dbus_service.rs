@@ -1,6 +1,4 @@
-use std::{error::Error, future::pending};
-use zbus::{connection, interface};
-
+use zbus::interface;
 
 pub struct Greeter {
     count: u64
@@ -16,21 +14,8 @@ impl Greeter {
 impl Greeter {
     fn say_hello(&mut self, name: &str) -> String {
         self.count += 1;
-        format!("Hello{}! I have been called {} times.", name, self.count)
+        format!("Hello {}! I have been called {} times.", name, self.count)
     }
 }
-
-//#[tokio::main]
-//async fn main() -> Result<(), Box<dyn Error>> {
-//    let greeter = Greeter { count: 0 };
-//    let _conn = connection::Builder::session()?
-//        .name("org.zbus.MyGreeter")?
-//        .serve_at("/org/zbus/MyGreeter", greeter)?
-//        .build()
-//        .await?;
-//    pending::<()>().await;
-//
-//    Ok(())
-//}
 
 
