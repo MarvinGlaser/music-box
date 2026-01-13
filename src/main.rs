@@ -1,17 +1,30 @@
 mod modules;
 
-use zbus::{Connection, Result, proxy};
+use std::{error::Error, future::pending};
 
-use crate::modules::audio_manager::audio_controller::AudioManager;
-use crate::modules::audio_manager::audio_controller::Manager;
+use zbus::{connection, proxy, interface};
+
+//use crate::modules::audio_manager::audio_controller::AudioManager;
+//use crate::modules::audio_manager::audio_controller::Manager;
+use crate::modules::audio_manager::dbus_service::Greeter;
 
 
-fn main() {
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn Error>> {
+//fn main() {
     println!("Hello");
-    let audio_manager: AudioManager = AudioManager {};
-    audio_manager.set_volume(33).unwrap();
-    let connection = Connection::session();
+    //let audio_manager: AudioManager = AudioManager {};
+    //audio_manager.set_volume(33).unwrap();
+    //let connection = Connection::session();
 
-   
+    let greeter = Greeter::new(0);
+    let _conn = connection::Builder::session()?
+        .name("org.zbus.MyGreeter")?
+        .serve_at("/org/zbus/MyGreeter", greeter)?
+        .build()
+        .await?;
+    pending::<()>().await;
+
+    Ok(())
     
 }
