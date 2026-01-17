@@ -28,7 +28,19 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let manager: AudioManager = AudioManager {};
     let mut state: AudioStates = AudioStates::Off(Off::new(manager));
     state.print_state();
-    state = state.on_event(AudioEvent::PressPlay);
+    state = state.on_event(AudioEvent::Play);
+    state.print_state();
+    state = state.on_event(AudioEvent::Play);
+    state.print_state();
+    state = state.on_event(AudioEvent::VolUp);
+    state.print_state();
+    state = state.on_event(AudioEvent::VolUp);
+    state.print_state();
+    state = state.on_event(AudioEvent::VolUp);
+    state.print_state();
+    state = state.on_event(AudioEvent::VolDown);
+    state.print_state();
+    state = state.on_event(AudioEvent::VolDown);
     state.print_state();
 
     Ok(())
