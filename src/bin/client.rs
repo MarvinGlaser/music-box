@@ -3,7 +3,7 @@ use zbus::{Connection, Result, proxy};
 #[proxy(
     interface = "org.zbus.MyGreeter1",
     default_service = "org.zbus.MyGreeter",
-    default_path = "/org/zbus/Greeter"
+    default_path = "/org/zbus/MyGreeter"
 )]
 trait MyGreeter {
     async fn say_hello(&self, name: &str) -> Result<String>;
