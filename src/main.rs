@@ -1,12 +1,13 @@
 mod modules;
 
 use std::{error::Error, future::pending};
-use zbus::connection;
-use modules::audio_manager::audio_state_machine::{AudioStates, AudioEvent, Off, Playing, Paused};
+//use zbus::connection;
+use modules::audio_manager::audio_state_machine::{AudioStates, Off};
+use modules::audio_manager::audio_state_machine::AudioEvent::{Play, Stop, VolUp, VolDown, Forward, Back, TrackForward, TrackBack};
 
 use crate::modules::audio_manager::audio_controller::AudioManager;
 //use crate::modules::audio_manager::audio_controller::Manager;
-use crate::modules::audio_manager::dbus_service::Greeter;
+//use crate::modules::audio_manager::dbus_service::Greeter;
 
 
 #[tokio::main]
@@ -25,23 +26,28 @@ async fn main() -> Result<(), Box<dyn Error>> {
     //    .await?;
     //pending::<()>().await;
     
+    let events = vec![
+        Play,
+        Play,
+        VolUp,
+        VolUp,
+        VolUp,
+        VolDown,
+        VolDown,
+        VolDown,
+        Forward,
+        Stop,
+        Play,
+        Back,
+        TrackForward,
+        TrackBack,
+    ];
     let manager: AudioManager = AudioManager {};
-    let mut state: AudioStates = AudioStates::Off(Off::new(manager));
-    state.print_state();
-    state = state.on_event(AudioEvent::Play);
-    state.print_state();
-    state = state.on_event(AudioEvent::Play);
-    state.print_state();
-    state = state.on_event(AudioEvent::VolUp);
-    state.print_state();
-    state = state.on_event(AudioEvent::VolUp);
-    state.print_state();
-    state = state.on_event(AudioEvent::VolUp);
-    state.print_state();
-    state = state.on_event(AudioEvent::VolDown);
-    state.print_state();
-    state = state.on_event(AudioEvent::VolDown);
-    state.print_state();
+    let mut state: AudioStates = AudioStates::OffState(Off::new(manager));
+    for event in events {
+        state.print_state();
+        state = state.on_event(event);
+    }
 
     Ok(())
     
