@@ -28,26 +28,32 @@ impl Manager for AudioManager {
     }
 
     fn play(&self) -> Result<(), Error> {
+        println!("Hello, I am playing a song!");
         Ok(())
     }
 
     fn pause(&self) -> Result<(), Error> {
+        println!("Aww, I have to pause now...");
         Ok(())
     }
 
     fn move_track_forward(&self, seconds: i32) -> Result<(), Error> {
+        println!("Moving the track forward {seconds} seconds");
         Ok(())
     }
 
     fn move_track_backward(&self, seconds: i32) -> Result<(), Error> {
+        println!("Moving the track backwards {seconds} seconds");
         Ok(())
     }
 
     fn next_track(&self) -> Result<(), Error> {
+        println!("Playing next track");
         Ok(())
     }
 
     fn previous_track(&self) -> Result<(), Error> {
+        println!("Playing previous track");
         Ok(())
     }
 
