@@ -8,7 +8,7 @@ use modules::audio_manager::audio_state_machine::AudioEvent::{Play, Stop, VolUp,
 use crate::modules::audio_manager::audio_controller::{AudioManager, Manager};
 use crate::modules::audio_manager::dbus_service::Greeter;
 
-fn test_state_machine() {
+async fn test_state_machine(con: &Connection) -> zbus::Result<()>{
     let events = vec![
         Play,
         Play,
@@ -27,19 +27,17 @@ fn test_state_machine() {
     ];
 
     println!("Initializing AudioManager");
-    let manager: AudioManager = AudioManager {};
+    let manager: AudioManager = AudioManager::new(con, None, None).await? ;
     println!("Building intial AudioState");
     let mut state: AudioState = AudioState::off(manager);
     for event in events {
         state.print_state();
         state = state.on_event(event);
     }
+    Ok(())
 }
 
 async fn test_audio_manager() -> Result<(), zbus::Error> {
-    let audio_manager: AudioManager = AudioManager {};
-    audio_manager.set_volume(33).unwrap();
-    let connection = Connection::session();
 
     let greeter = Greeter::new(0);
     let _conn = connection::Builder::session()?
@@ -54,7 +52,7 @@ async fn test_audio_manager() -> Result<(), zbus::Error> {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-//fn main() {
+    let connection = Connection::session();
     test_state_machine();
     let res = test_audio_manager().await;
     if let Err(err) = res { println!("Something terrible happend! Error: {err}") };

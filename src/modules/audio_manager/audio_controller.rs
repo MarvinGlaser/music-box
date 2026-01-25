@@ -1,8 +1,32 @@
 use std::io::Error;
+use zbus::Connection;
+
+use super::audio_proxies::PlayerProxy;
 
 
 
-pub struct AudioManager { }
+pub struct AudioManager<'a> { 
+    proxy: PlayerProxy<'a>,
+}
+
+impl<'a> AudioManager<'a> {
+    pub async fn new(connection: &Connection, destination: Option<String>, path: Option<String>) -> zbus::Result<AudioManager<'a>> {
+        let mut builder = PlayerProxy::builder(connection);
+
+        if let Some(dest) = destination {
+            builder = builder.destination(dest)?;
+        }
+
+        if let Some(path) = path {
+            builder = builder.path(path)?;
+        }
+
+        let proxy = builder.build().await?;
+
+        Ok(AudioManager { proxy })
+    }
+
+}
 
 
 pub trait Manager {
@@ -16,7 +40,7 @@ pub trait Manager {
 }
 
 
-impl Manager for AudioManager {
+impl<'a> Manager for AudioManager<'a> {
 
     fn set_volume(&self, level: i32) -> Result<(), Error> {
         if level > 40 {
