@@ -181,7 +181,7 @@ fn mod_volume(audio_manager: &AudioManager, volume: i32, diff: i32) -> i32 {
     }
 }
 
-fn modify_timer(audio_manager: &AudioManager, seconds: i32) {
+fn modify_timer(audio_manager: &AudioManager, seconds: i64) {
     if seconds >= 0 {
         let res = audio_manager.move_track_forward(seconds);
         if let Err(err) = res { println!("Failed to move track forward. Error: {}", err) }
