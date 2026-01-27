@@ -1,18 +1,23 @@
-use zbus::{proxy, Result};
+use zbus::Result;
 
 
-#[proxy(
+#[zbus::proxy(
     interface = "org.mpris.MediaPlayer2.Player",
     default_service = "org.mpris.MediaPlayer2.Player",
     default_path = "/org/mpris/MediaPlayer2/Player"
 )]
 pub trait Player {
-    async fn play_pause(&self) -> Result<()>;
-    async fn seek(&self, nano_seconds: i64) -> Result<()>;
+    //async fn play_pause(&self) -> Result<()>;
+    //async fn seek(&self, nano_seconds: i64) -> Result<()>;
+
+    #[zbus(property)]
+    async fn volume(&self) -> Result<f64>;
+    //#[zbus(property)]
+    //async fn set_volume(&self, volume: f64) -> Result<()>;
 }
 
 
-#[proxy(
+#[zbus::proxy(
     interface = "org.mpris.MediaPlayer2",
     default_service = "org.mpris.MediaPlayer2",
     default_path = "/org/mpris/MediaPlayer2"

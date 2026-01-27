@@ -1,4 +1,4 @@
-use zbus::{Connection, Error};
+use zbus::{Connection, Result};
 
 use crate::modules::audio_manager::audio_proxies::{PlayerProxy, MediaProxy};
 
@@ -38,19 +38,19 @@ impl<'a> AudioManager<'a> {
 
 
 pub trait Manager {
-    async fn set_volume(&self, level: i32) -> Result<(), Error>;
-    async fn play(&self) -> Result<(), Error>;
-    async fn pause(&self) -> Result<(), Error>;
-    async fn move_track_forward(&self, seconds: i64) -> Result<(), Error>;
-    async fn move_track_backward(&self, seconds: i64) -> Result<(), Error>;
-    async fn next_track(&self) -> Result<(), Error>;
-    async fn previous_track(&self) -> Result<(), Error>;
+    async fn set_volume(&self, level: i32) -> Result<()>;
+    async fn play(&self) -> Result<()>;
+    async fn pause(&self) -> Result<()>;
+    async fn move_track_forward(&self, seconds: i64) -> Result<()>;
+    async fn move_track_backward(&self, seconds: i64) -> Result<()>;
+    async fn next_track(&self) -> Result<()>;
+    async fn previous_track(&self) -> Result<()>;
 }
 
 // do these need to be async?
 impl<'a> Manager for AudioManager<'a> {
 
-    async fn set_volume(&self, level: i32) -> Result<(), Error> {
+    async fn set_volume(&self, level: i32) -> Result<()> {
         if level > 40 {
             //Err(Error::other(format!("Audio too loude, could not set level to {}", level)))
             println!("Audio too loude, could not set level to {}", level);
@@ -61,34 +61,34 @@ impl<'a> Manager for AudioManager<'a> {
     }
 
     // todo: unsure how to deal with play/pause
-    async fn play(&self) -> Result<(), Error> {
+    async fn play(&self) -> Result<()> {
         println!("Hello, I am playing a song!");
         Ok(())
     }
 
-    async fn pause(&self) -> Result<(), Error> {
+    async fn pause(&self) -> Result<()> {
         println!("Aww, I have to pause now...");
         Ok(())
     }
 
-    async fn move_track_forward(&self, seconds: i64) -> Result<(), Error> {
+    async fn move_track_forward(&self, seconds: i64) -> Result<()> {
         self.player_proxy.seek(seconds * (10^6)).await?;
         println!("Moving the track forward {seconds} seconds");
         Ok(())
     }
 
-    async fn move_track_backward(&self, seconds: i64) -> Result<(), Error> {
-        self.player_proxy.seek(seconds * -1 * (10^6));
+    async fn move_track_backward(&self, seconds: i64) -> Result<()> {
+        self.player_proxy.seek(-seconds * (10^6)).await?;
         println!("Moving the track backwards {seconds} seconds");
         Ok(())
     }
 
-    async fn next_track(&self) -> Result<(), Error> {
+    async fn next_track(&self) -> Result<()> {
         println!("Playing next track");
         Ok(())
     }
 
-    async fn previous_track(&self) -> Result<(), Error> {
+    async fn previous_track(&self) -> Result<()> {
         println!("Playing previous track");
         Ok(())
     }

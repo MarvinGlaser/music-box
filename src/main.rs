@@ -5,7 +5,7 @@ use zbus::{Connection, connection};
 use modules::audio_manager::audio_state_machine::{AudioState};
 use modules::audio_manager::audio_state_machine::AudioEvent::{Play, Stop, VolUp, VolDown, Forward, Back, TrackForward, TrackBack};
 
-use crate::modules::audio_manager::audio_controller::{AudioManager, Manager};
+use crate::modules::audio_manager::audio_controller::{AudioManager};
 use crate::modules::audio_manager::dbus_service::Greeter;
 
 async fn test_state_machine(con: &Connection) -> zbus::Result<()>{
@@ -32,7 +32,7 @@ async fn test_state_machine(con: &Connection) -> zbus::Result<()>{
     let mut state: AudioState = AudioState::off(manager);
     for event in events {
         state.print_state();
-        state = state.on_event(event);
+        state = state.on_event(event).await?;
     }
     Ok(())
 }
@@ -52,8 +52,8 @@ async fn test_audio_manager() -> Result<(), zbus::Error> {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    let connection = Connection::session();
-    test_state_machine();
+    let connection = Connection::session().await?;
+    test_state_machine(&connection).await?;
     let res = test_audio_manager().await;
     if let Err(err) = res { println!("Something terrible happend! Error: {err}") };
 
