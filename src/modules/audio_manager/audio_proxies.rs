@@ -7,13 +7,13 @@ use zbus::Result;
     default_path = "/org/mpris/MediaPlayer2/Player"
 )]
 pub trait Player {
-    //async fn play_pause(&self) -> Result<()>;
-    //async fn seek(&self, nano_seconds: i64) -> Result<()>;
+    async fn play_pause(&self) -> Result<()>;
+    async fn seek(&self, nano_seconds: i64) -> Result<()>;
 
     #[zbus(property)]
-    async fn volume(&self) -> Result<f64>;
-    //#[zbus(property)]
-    //async fn set_volume(&self, volume: f64) -> Result<()>;
+    fn volume(&self) -> Result<f64>;
+    #[zbus(property)]
+    fn set_volume(&self, volume: f64) -> Result<()>;
 }
 
 

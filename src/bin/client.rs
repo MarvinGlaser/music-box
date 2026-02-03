@@ -1,22 +1,22 @@
 use zbus::{Connection, Result, proxy};
 
-#[proxy(
-    interface = "org.zbus.MyGreeter1",
-    default_service = "org.zbus.MyGreeter",
-    default_path = "/org/zbus/MyGreeter"
-)]
-trait MyGreeter {
-    async fn say_hello(&self, name: &str) -> Result<String>;
-}
+//#[proxy(
+//    interface = "org.zbus.MyGreeter1",
+//    default_service = "org.zbus.MyGreeter",
+//    default_path = "/org/zbus/MyGreeter"
+//)]
+//trait MyGreeter {
+//    async fn say_hello(&self, name: &str) -> Result<String>;
+//}
 
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    let connection = Connection::session().await?;
+    //let connection = Connection::session().await?;
 
-    let proxy = MyGreeterProxy::new(&connection).await?;
-    let reply = proxy.say_hello("Maria").await?;
-    println!("{reply}");
+    //let proxy = MyGreeterProxy::new(&connection).await?;
+    //let reply = proxy.say_hello("Maria").await?;
+    //println!("{reply}");
 
     Ok(())
 }
